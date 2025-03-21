@@ -3,10 +3,20 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+interface Movie {
+  imdbID: string;
+  Title: string;
+  Poster: string;
+  Year: string;
+  Genre?: string;
+  Plot?: string;
+  Actors?: string;
+}
+
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   const handleSearch = async () => {
     if (searchTerm.trim() === '') return;
@@ -20,7 +30,7 @@ export default function Home() {
     }
   };
 
-  const handleMovieClick = async (imdbID: any) => {
+  const handleMovieClick = async (imdbID: string) => {
     try {
       const response = await axios.get(`https://www.omdbapi.com/?i=${imdbID}&apikey=3fb6a8a8`);
       setSelectedMovie(response.data);
@@ -70,7 +80,7 @@ export default function Home() {
               Back to Search Results
             </button>
 
-            <h2 className="text-3xl font-bold mb-4">{selectedMovie.Title}</h2>
+            <h2 className="text-3xl font-bold mb-4">{selectedMovie?.Title}</h2>
             <div className="flex">
               <img
                 src={selectedMovie.Poster !== 'N/A' ? selectedMovie.Poster : '/placeholder.jpg'}
