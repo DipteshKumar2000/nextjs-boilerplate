@@ -20,7 +20,7 @@ export default function Home() {
     }
   };
 
-  const handleMovieClick = async (imdbID) => {
+  const handleMovieClick = async (imdbID: any) => {
     try {
       const response = await axios.get(`https://www.omdbapi.com/?i=${imdbID}&apikey=3fb6a8a8`);
       setSelectedMovie(response.data);
